@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    id("kotlin-kapt")
+    alias(libs.plugins.hilt.plugin)
 }
 
 android {
@@ -49,6 +52,10 @@ android {
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -61,6 +68,11 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.viewmodel.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.dagger.hilt)
+    kapt(libs.kapt)
 
     testImplementation(libs.junit)
 
