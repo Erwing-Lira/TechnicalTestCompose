@@ -1,3 +1,57 @@
 <resources>
     <string name="app_name">TechnicalTest</string>
+
+    <!-- SignUp -->
+    <string name="photo_uri_description">Credential</string>
+    <string name="add_icon_description">Add</string>
+    <string name="add_photo_description">Take a picture of your credential ID</string>
+    <string name="signup_title">Fill the following information, to create an account</string>
+    <string name="signup_error_text">It should only have letters</string>
+    <string name="signup_name">Name</string>
+    <string name="signup_last_name">Last name</string>
+    <string name="signup_repeat_password">Repeat password</string>
+    <string name="signup_both_password_error">Both password should be the same</string>
+    <string name="signup_create_button">Create account</string>
+    <string name="signup_account">You have an account</string>
+    <string name="signup_signin">Sign in</string>
+
+    <!-- Success -->
+    <string name="ticket_success_description">The account has been created successfully.</string>
+    <string name="ticket_success_icon_description">success</string>
+
+    <!-- SignIn -->
+    <string name="signin_account">Do not have an account?</string>
+    <string name="signin_signup">Sign up</string>
+
+    <!-- Movement Detail-->
+    <string name="icon_movement_type">Movement type</string>
+    <string name="movement_detail_title">Movement Detail</string>
+    <string name="movement_detail_date">Date</string>
+    <string name="movement_detail_destination">Destination</string>
+    <string name="movement_detail_concept">Concept</string>
+    <string name="movement_detail_reference">Reference</string>
+
+    <!-- Home -->
+    <string name="home_icon_empty_card">Empty</string>
+    <string name="home_error">An error occurred, try again</string>
+    <string name="home_icon_go_detail">Go detail</string>
+    <string name="home_empty_movements">Empty movements</string>
+    <string name="home_icon_empty_movements_description">Empty</string>
+    <string name="home_greeting">¡Hi!</string>
+    <string name="home_movements_title">Movements</string>
+    <string name="home_sorted">Sorted by</string>
+    <string name="home_sorted_icon_description">Icon sorted</string>
+
+    <!-- Common -->
+    <string name="login">Log in</string>
+    <string name="password_visibility">Visibility</string>
+    <string name="email">Email</string>
+    <string name="email_error">It should be a valid email</string>
+    <string name="password">Password</string>
+    <string name="password_error">Must contain at least 6 letter</string>
+    <string name="log_out">Log out</string>
+    <string name="log_out_icon_description">Log out</string>
+    <string name="log_out_accept">Accept</string>
+    <string name="log_out_cancel">Cancel</string>
+    <string name="log_out_title">Do you want to log out?</string>
 </resources>

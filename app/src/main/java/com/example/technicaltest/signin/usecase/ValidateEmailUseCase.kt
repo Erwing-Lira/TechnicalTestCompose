@@ -4,7 +4,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 
 class ValidateEmailUseCase @Inject constructor() {
-    fun isValidEmail(
+    operator fun invoke(
         pattern: Pattern,
         email: String
     ): Boolean {

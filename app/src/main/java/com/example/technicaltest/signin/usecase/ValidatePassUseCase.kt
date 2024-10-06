@@ -3,7 +3,7 @@ package com.example.technicaltest.signin.usecase
 import javax.inject.Inject
 
 class ValidatePassUseCase @Inject constructor() {
-    fun isValidPassword(
+    operator fun invoke(
         password: String
     ): Boolean {
         if (password.isEmpty()) {

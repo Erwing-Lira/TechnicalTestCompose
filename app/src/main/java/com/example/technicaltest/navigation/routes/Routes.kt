@@ -10,10 +10,13 @@ sealed class Routes {
     data object SignUp: Routes()
 
     @Serializable
+    data object Ticket: Routes()
+
+    @Serializable
     data object Home: Routes()
 
     @Serializable
     data class MovementDetail(
-        val reference: String
+        val movement: String
     ): Routes()
 }

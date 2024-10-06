@@ -20,11 +20,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.technicaltest.home.state.Movement
+import com.example.technicaltest.R
+import com.example.technicaltest.home.model.Movement
+import com.example.technicaltest.home.state.MovementType
+import com.example.technicaltest.signup.util.getDate
+import com.example.technicaltest.utils.formatAmount
+import com.google.firebase.Timestamp
+import java.util.Calendar
 
 @Composable
 fun MovementItem(
@@ -53,32 +60,33 @@ fun MovementItem(
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = movement.destiny,
-                    fontSize = 20.sp,
-                    color = Color(0xFF424242)
+                    text = movement.destination,
+                    fontSize = 18.sp,
+                    color = Color(0xFF424242),
+                    modifier = Modifier.wrapContentWidth()
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    modifier = Modifier.padding(8.dp),
-                    text = movement.reference,
-                    fontSize = 15.sp,
-                    color = Color.Gray
+                    modifier = Modifier.padding(8.dp).wrapContentWidth(),
+                    text = movement.concept,
+                    fontSize = 14.sp,
+                    color = Color.Gray,
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
             val (colorText, sign) = when(movement.movementType) {
                 MovementType.Income -> Color.Green to "+"
-                MovementType.Outgoing -> Color.Red to "-"
+                MovementType.Expense -> Color.Red to "-"
             }
             Text(
-                text = "$sign${movement.money}",
+                text = "$sign${movement.money.formatAmount()}",
                 color = colorText,
                 fontWeight = FontWeight.ExtraBold
             )
             Spacer(modifier = Modifier.width(16.dp))
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Go detail",
+                contentDescription = stringResource(id = R.string.home_icon_go_detail),
                 tint = Color(0xFF2196F3)
             )
             Spacer(modifier = Modifier.width(16.dp))
@@ -89,13 +97,18 @@ fun MovementItem(
 @Preview(showBackground = true)
 @Composable
 fun MovementItemPreview() {
+    val calendar = Calendar.getInstance()
+    calendar.set(2027, Calendar.FEBRUARY, 24)
+    val timeStamps = Timestamp(getDate().time)
     MovementItem(
         movement = Movement(
-            "Date",
-            "Destiny",
-            "37tfg435yuf",
-            "50.00",
-            movementType = MovementType.Income
+            id ="",
+            date = timeStamps.toDate().time,
+            destination = "Destiny",
+            reference = "37tfg435yuf",
+            money = 5000.00,
+            movementType = MovementType.Income,
+            concept = "Prueba"
         ),
         onMovementClick = {
 
