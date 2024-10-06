@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     id("kotlin-kapt")
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.google.crashlytics)
 }
 
 android {
@@ -73,6 +75,12 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.dagger.hilt)
     kapt(libs.kapt)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
+    implementation(libs.kotlin.coil)
 
     testImplementation(libs.junit)
 

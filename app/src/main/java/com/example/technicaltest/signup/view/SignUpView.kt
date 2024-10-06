@@ -1,5 +1,7 @@
 package com.example.technicaltest.signup.view
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -23,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.technicaltest.signin.state.ProcessState
 import com.example.technicaltest.signup.viewmodel.SignUpViewModel
 import com.example.technicaltest.views.buttons.ButtonLoader
 import com.example.technicaltest.views.footer.Footer
@@ -32,12 +36,29 @@ import com.example.technicaltest.views.inputs.InputText
 @Composable
 fun SignUpView(
     onNavigateUp: () -> Unit = {},
-    viewmodel: SignUpViewModel = hiltViewModel(),
+    onSignUpSuccess: () -> Unit = {},
+    context: Context = LocalContext.current,
+    viewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    val state = viewmodel.uiState.collectAsStateWithLifecycle()
+    val state = viewModel.uiState.collectAsStateWithLifecycle()
+    val processState = viewModel.processState.collectAsStateWithLifecycle()
+
+    when (processState.value) {
+        ProcessState.Failure -> {
+            viewModel.resetProcessState()
+            Toast.makeText(context, "It should be an error, try again", Toast.LENGTH_SHORT).show()
+        }
+        ProcessState.Success -> {
+            viewModel.resetProcessState()
+            onSignUpSuccess()
+        }
+        ProcessState.StandBy -> Unit
+    }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -49,7 +70,7 @@ fun SignUpView(
             labelText = {
                 Text(text = "Name")
             },
-            onTextChanged = viewmodel::onNameChanged
+            onTextChanged = viewModel::onNameChanged
         )
         Spacer(modifier = Modifier.size(8.dp))
         InputText(
@@ -60,7 +81,7 @@ fun SignUpView(
             labelText = {
                 Text(text = "Last name")
             },
-            onTextChanged = viewmodel::onLastNameChanged
+            onTextChanged = viewModel::onLastNameChanged
         )
         Spacer(modifier = Modifier.size(8.dp))
         InputText(
@@ -71,7 +92,7 @@ fun SignUpView(
             labelText = {
                 Text(text = "Email")
             },
-            onTextChanged = viewmodel::onEmailChanged
+            onTextChanged = viewModel::onEmailChanged
         )
         Spacer(modifier = Modifier.size(8.dp))
         InputText(
@@ -94,12 +115,12 @@ fun SignUpView(
                     Icons.Filled.Lock
                 }
                 IconButton(
-                    onClick = viewmodel::onPasswordVisibility
+                    onClick = viewModel::onPasswordVisibility
                 ) {
                     Icon(imageVector = iconImage, contentDescription = "Visibility")
                 }
             },
-            onTextChanged = viewmodel::onPasswordChanged
+            onTextChanged = viewModel::onPasswordChanged
         )
         Spacer(modifier = Modifier.size(8.dp))
         InputText(
@@ -122,12 +143,17 @@ fun SignUpView(
                     Icons.Filled.Lock
                 }
                 IconButton(
-                    onClick = viewmodel::onRepeatPasswordVisibility
+                    onClick = viewModel::onRepeatPasswordVisibility
                 ) {
                     Icon(imageVector = iconImage, contentDescription = "Visibility")
                 }
             },
-            onTextChanged = viewmodel::onRepeatPasswordChanged
+            onTextChanged = viewModel::onRepeatPasswordChanged
+        )
+        Spacer(modifier = Modifier.size(16.dp))
+        CameraCapture(
+            context = context,
+            onImageCapture = viewModel::onPhotoChanged
         )
         Spacer(modifier = Modifier.size(16.dp))
         ButtonLoader(
@@ -136,7 +162,7 @@ fun SignUpView(
             buttonState = state.value.buttonState,
             buttonText = "Create account",
             onClickListener = {
-                viewmodel.authenticate()
+                viewModel.registry()
             }
         )
         Spacer(modifier = Modifier.size(16.dp))

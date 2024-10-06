@@ -13,3 +13,9 @@ data class SignInState(
     val isButtonEnabled: Boolean = false,
     val buttonState: ButtonState = ButtonState.StandBy,
 )
+
+sealed interface ProcessState {
+    data object Success: ProcessState
+    data object Failure: ProcessState
+    data object StandBy: ProcessState
+}

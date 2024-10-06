@@ -21,6 +21,14 @@ fun Navigation(
             SignInView(
                 onNavigateToSignUp = {
                     navigationController.navigate(Routes.SignUp)
+                },
+                onNavigateToHome = {
+                    navigationController.navigate(Routes.Home) {
+                        popUpTo<Routes.SignIn> {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
                 }
             )
         }
@@ -28,6 +36,14 @@ fun Navigation(
             SignUpView(
                 onNavigateUp = {
                     navigationController.navigateUp()
+                },
+                onSignUpSuccess = {
+                    navigationController.navigate(Routes.SignIn) {
+                        popUpTo<Routes.SignUp> {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
                 }
             )
         }
@@ -35,6 +51,14 @@ fun Navigation(
             HomeView(
                 onMovementClicked = { reference ->
                     navigationController.navigate(Routes.MovementDetail(reference))
+                },
+                onLogoutClicked = {
+                    navigationController.navigate(Routes.SignIn) {
+                        popUpTo<Routes.Home> {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
                 }
             )
         }

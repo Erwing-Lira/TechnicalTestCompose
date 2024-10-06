@@ -8,7 +8,7 @@ class ValidateTextUseCase @Inject constructor() {
         const val TEXT_REGEX = "^[a-zA-Z]+$"
     }
 
-    fun isValidText(
+    operator fun invoke(
         text: String
     ): Boolean {
         if (text.isEmpty()) {

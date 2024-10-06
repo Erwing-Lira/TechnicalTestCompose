@@ -1,5 +1,7 @@
 package com.example.technicaltest.signin.view
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -23,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.technicaltest.signin.state.ProcessState
 import com.example.technicaltest.signin.viewmodel.SignInViewModel
 import com.example.technicaltest.views.buttons.ButtonLoader
 import com.example.technicaltest.views.footer.Footer
@@ -31,10 +35,25 @@ import com.example.technicaltest.views.inputs.InputText
 @Preview(showBackground = true)
 @Composable
 fun SignInView(
+    context: Context = LocalContext.current,
     onNavigateToSignUp: () -> Unit = {},
-    viewmodel: SignInViewModel = hiltViewModel(),
+    onNavigateToHome: () -> Unit = {},
+    viewModel: SignInViewModel = hiltViewModel(),
 ) {
-    val state = viewmodel.uiState.collectAsStateWithLifecycle()
+    val state = viewModel.uiState.collectAsStateWithLifecycle()
+    val processState = viewModel.processState.collectAsStateWithLifecycle()
+
+    when (processState.value) {
+        ProcessState.Failure -> {
+            viewModel.resetProcessState()
+            Toast.makeText(context, "Email or Password my be wrong", Toast.LENGTH_SHORT).show()
+        }
+        ProcessState.Success -> {
+            viewModel.resetProcessState()
+            onNavigateToHome()
+        }
+        ProcessState.StandBy -> Unit
+    }
 
     Column(
         modifier = Modifier
@@ -51,7 +70,7 @@ fun SignInView(
             labelText = {
                 Text(text = "Username")
             },
-            onTextChanged = viewmodel::onEmailChanged
+            onTextChanged = viewModel::onEmailChanged
         )
         Spacer(modifier = Modifier.size(8.dp))
         InputText(
@@ -74,12 +93,12 @@ fun SignInView(
                     Icons.Filled.Lock
                 }
                 IconButton(
-                    onClick = viewmodel::onPasswordVisibilityChange
+                    onClick = viewModel::onPasswordVisibilityChange
                 ) {
                     Icon(imageVector = iconImage, contentDescription = "Visibility")
                 }
             },
-            onTextChanged = viewmodel::onPasswordChange
+            onTextChanged = viewModel::onPasswordChange
         )
         Spacer(modifier = Modifier.size(16.dp))
         ButtonLoader(
@@ -87,9 +106,7 @@ fun SignInView(
             isEnabled = state.value.isButtonEnabled,
             buttonState = state.value.buttonState,
             buttonText = "Log in",
-            onClickListener = {
-                viewmodel.authenticate()
-            }
+            onClickListener = viewModel::authenticate
         )
         Spacer(modifier = Modifier.size(16.dp))
         Footer(
