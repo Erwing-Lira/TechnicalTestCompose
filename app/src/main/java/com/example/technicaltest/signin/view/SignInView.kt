@@ -53,7 +53,6 @@ fun SignInView(
             }
             ProcessState.Success -> {
                 onNavigateToHome()
-                viewModel.resetProcessState()
             }
             ProcessState.StandBy -> Unit
         }

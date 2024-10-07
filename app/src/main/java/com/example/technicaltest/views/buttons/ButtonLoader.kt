@@ -1,5 +1,6 @@
 package com.example.technicaltest.views.buttons
 
+import android.util.Log
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -22,7 +23,10 @@ fun ButtonLoader(
     Button(
         modifier = modifier,
         onClick = {
-            onClickListener()
+            if (buttonState != ButtonState.Loading) {
+                Log.d("BUTTON", "Click")
+                onClickListener()
+            }
         },
         enabled = isEnabled,
         shape = RoundedCornerShape(8.dp)

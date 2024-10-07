@@ -58,7 +58,6 @@ fun SignUpView(
                 viewModel.resetProcessState()
             }
             ProcessState.Success -> {
-                viewModel.resetProcessState()
                 onSignUpSuccess()
             }
             ProcessState.StandBy -> Unit
