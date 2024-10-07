@@ -23,10 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.technicaltest.R
 import com.example.technicaltest.home.model.CardInformation
 import com.example.technicaltest.home.state.CardState
 import com.example.technicaltest.home.state.ProcessState
@@ -80,7 +82,7 @@ fun DigitalCardView(
                             contentAlignment = Alignment.Center) {
                             Icon(
                                 imageVector = Icons.Filled.Clear,
-                                contentDescription = "Empty"
+                                contentDescription = stringResource(id = R.string.home_icon_empty_card)
                             )
                         }
                     }

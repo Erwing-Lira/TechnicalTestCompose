@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -27,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.technicaltest.R
 import com.example.technicaltest.signin.state.ProcessState
 import com.example.technicaltest.signin.viewmodel.SignInViewModel
 import com.example.technicaltest.views.buttons.ButtonLoader
@@ -69,9 +71,9 @@ fun SignInView(
             value = state.value.email,
             keyboardType = KeyboardType.Email,
             isError = state.value.isEmailWrong,
-            errorMessage = "It should be a valid email",
+            errorMessage = stringResource(id = R.string.email_error),
             labelText = {
-                Text(text = "Username")
+                Text(text = stringResource(id = R.string.email))
             },
             onTextChanged = viewModel::onEmailChanged
         )
@@ -80,14 +82,14 @@ fun SignInView(
             value = state.value.password,
             keyboardType = KeyboardType.Password,
             isError = state.value.isPassWrong,
-            errorMessage = "Must contain at least 6 letter",
+            errorMessage = stringResource(id = R.string.password_error),
             visualTransformation = if (state.value.passwordVisibility) {
                 VisualTransformation.None
             } else {
                 PasswordVisualTransformation()
             },
             labelText = {
-                Text(text = "Password")
+                Text(text = stringResource(id = R.string.password))
             },
             trailingIcon = {
                 val iconImage = if (state.value.passwordVisibility) {
@@ -98,7 +100,10 @@ fun SignInView(
                 IconButton(
                     onClick = viewModel::onPasswordVisibilityChange
                 ) {
-                    Icon(imageVector = iconImage, contentDescription = "Visibility")
+                    Icon(
+                        imageVector = iconImage,
+                        contentDescription = stringResource(id = R.string.password_visibility)
+                    )
                 }
             },
             onTextChanged = viewModel::onPasswordChange
@@ -108,13 +113,13 @@ fun SignInView(
             modifier = Modifier.fillMaxWidth(),
             isEnabled = state.value.isButtonEnabled,
             buttonState = state.value.buttonState,
-            buttonText = "Log in",
+            buttonText = stringResource(id = R.string.signin_login),
             onClickListener = viewModel::authenticate
         )
         Spacer(modifier = Modifier.size(16.dp))
         Footer(
-            descriptionText = "Don't have an account?",
-            linkText = "Sign up",
+            descriptionText = stringResource(id = R.string.signin_account),
+            linkText = stringResource(id = R.string.signin_signup),
             modifier = Modifier.fillMaxWidth(),
             onLinkTextListener = {
                 onNavigateToSignUp()

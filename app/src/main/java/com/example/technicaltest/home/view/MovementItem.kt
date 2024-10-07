@@ -20,10 +20,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.technicaltest.R
 import com.example.technicaltest.home.model.Movement
 import com.example.technicaltest.home.state.MovementType
 import com.example.technicaltest.signup.util.getDate
@@ -84,7 +86,7 @@ fun MovementItem(
             Spacer(modifier = Modifier.width(16.dp))
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "Go detail",
+                contentDescription = stringResource(id = R.string.home_icon_go_detail),
                 tint = Color(0xFF2196F3)
             )
             Spacer(modifier = Modifier.width(16.dp))

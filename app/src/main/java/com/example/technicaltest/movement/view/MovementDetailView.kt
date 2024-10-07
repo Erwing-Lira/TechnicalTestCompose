@@ -14,10 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.technicaltest.R
 import com.example.technicaltest.home.model.Movement
 import com.example.technicaltest.home.state.MovementType
 import com.example.technicaltest.utils.formatDate
@@ -39,7 +41,7 @@ fun MovementDetailView(
             .fillMaxWidth()
     ) {
         Text(
-            text = "Movement Detail",
+            text = stringResource(id = R.string.movement_detail_title),
             modifier = Modifier
                 .wrapContentWidth()
                 .align(Alignment.CenterHorizontally),
@@ -56,19 +58,19 @@ fun MovementDetailView(
         )
         Spacer(modifier = Modifier.size(16.dp))
         RowTex(
-            leftInformation = "Date",
+            leftInformation = stringResource(id = R.string.movement_detail_date),
             rightInformation = Date(movement.date).formatDate()
         )
         RowTex(
-            leftInformation = "Destination",
+            leftInformation = stringResource(id = R.string.movement_detail_destination),
             rightInformation = movement.destination
         )
         RowTex(
-            leftInformation = "Concept",
+            leftInformation = stringResource(id = R.string.movement_detail_concept),
             rightInformation = movement.concept
         )
         RowTex(
-            leftInformation = "Reference",
+            leftInformation = stringResource(id = R.string.movement_detail_reference),
             rightInformation = movement.reference
         )
     }

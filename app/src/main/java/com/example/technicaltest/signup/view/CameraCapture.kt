@@ -25,10 +25,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
+import com.example.technicaltest.R
 import com.example.technicaltest.utils.createImageFile
 import java.util.Objects
 
@@ -63,7 +65,11 @@ fun CameraCapture(
             if (isGranted) {
                 cameraLauncher.launch(uri)
             } else {
-                Toast.makeText(context, "It's necessary the picture to be able to continue", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "It is necessary the picture to be able to continue",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     )
@@ -89,13 +95,13 @@ fun CameraCapture(
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
                 model = imageUri,
-                contentDescription = "Credential"
+                contentDescription = stringResource(id = R.string.photo_uri_description)
             )
         } else {
             Image(
                 modifier = Modifier.fillMaxSize(),
                 imageVector = Icons.Filled.Add,
-                contentDescription = "Add"
+                contentDescription = stringResource(id = R.string.add_icon_description)
             )
         }
     }

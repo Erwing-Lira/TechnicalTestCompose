@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.technicaltest.R
 import com.example.technicaltest.signin.state.ProcessState
 import com.example.technicaltest.signup.viewmodel.SignUpViewModel
 import com.example.technicaltest.views.buttons.ButtonLoader
@@ -71,7 +73,7 @@ fun SignUpView(
     ) {
         Text(
             color = Color(0xFF4EA8E9),
-            text = "Fill the following information, to create an account",
+            text = stringResource(id = R.string.signup_title),
             fontSize = 18.sp,
         )
         Spacer(modifier = Modifier.size(8.dp))
@@ -79,9 +81,9 @@ fun SignUpView(
             value = state.value.name,
             keyboardType = KeyboardType.Text,
             isError = state.value.isNameWrong,
-            errorMessage = "It should only have letters",
+            errorMessage = stringResource(id = R.string.signup_error_text),
             labelText = {
-                Text(text = "Name")
+                Text(text = stringResource(id = R.string.signup_name))
             },
             onTextChanged = viewModel::onNameChanged
         )
@@ -90,9 +92,9 @@ fun SignUpView(
             value = state.value.lastName,
             keyboardType = KeyboardType.Text,
             isError = state.value.isLastNameWrong,
-            errorMessage = "It should only have letters",
+            errorMessage = stringResource(id = R.string.signup_error_text),
             labelText = {
-                Text(text = "Last name")
+                Text(text = stringResource(id = R.string.signup_last_name))
             },
             onTextChanged = viewModel::onLastNameChanged
         )
@@ -101,9 +103,9 @@ fun SignUpView(
             value = state.value.email,
             keyboardType = KeyboardType.Email,
             isError = state.value.isEmailWrong,
-            errorMessage = "It should be a valid email",
+            errorMessage = stringResource(id = R.string.email_error),
             labelText = {
-                Text(text = "Email")
+                Text(text = stringResource(id = R.string.email))
             },
             onTextChanged = viewModel::onEmailChanged
         )
@@ -112,14 +114,14 @@ fun SignUpView(
             value = state.value.password,
             keyboardType = KeyboardType.Password,
             isError = state.value.isPassWrong,
-            errorMessage = "Must contain at least 6 letter",
+            errorMessage = stringResource(id = R.string.password_error),
             visualTransformation = if (state.value.passwordVisibility) {
                 VisualTransformation.None
             } else {
                 PasswordVisualTransformation()
             },
             labelText = {
-                Text(text = "Password")
+                Text(text = stringResource(id = R.string.password))
             },
             trailingIcon = {
                 val iconImage = if (state.value.passwordVisibility) {
@@ -130,7 +132,10 @@ fun SignUpView(
                 IconButton(
                     onClick = viewModel::onPasswordVisibility
                 ) {
-                    Icon(imageVector = iconImage, contentDescription = "Visibility")
+                    Icon(
+                        imageVector = iconImage,
+                        contentDescription = stringResource(id = R.string.password_visibility)
+                    )
                 }
             },
             onTextChanged = viewModel::onPasswordChanged
@@ -140,14 +145,14 @@ fun SignUpView(
             value = state.value.repeatPassword,
             keyboardType = KeyboardType.Password,
             isError = state.value.isRepeatPassWrong,
-            errorMessage = "Must contain at least 6 letter",
+            errorMessage = stringResource(id = R.string.password_error),
             visualTransformation = if (state.value.repeatPasswordVisibility) {
                 VisualTransformation.None
             } else {
                 PasswordVisualTransformation()
             },
             labelText = {
-                Text(text = "Repeat password")
+                Text(text = stringResource(id = R.string.signup_repeat_password))
             },
             trailingIcon = {
                 val iconImage = if (state.value.repeatPasswordVisibility) {
@@ -158,7 +163,10 @@ fun SignUpView(
                 IconButton(
                     onClick = viewModel::onRepeatPasswordVisibility
                 ) {
-                    Icon(imageVector = iconImage, contentDescription = "Visibility")
+                    Icon(
+                        imageVector = iconImage,
+                        contentDescription = stringResource(id = R.string.password_visibility)
+                    )
                 }
             },
             onTextChanged = viewModel::onRepeatPasswordChanged
@@ -167,7 +175,7 @@ fun SignUpView(
             Spacer(modifier = Modifier.size(4.dp))
             Text(
                 color = Color.Red,
-                text = "Both password should be the same",
+                text = stringResource(id = R.string.signup_both_password_error),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Light
             )
@@ -182,15 +190,15 @@ fun SignUpView(
             modifier = Modifier.fillMaxWidth(),
             isEnabled = state.value.isButtonEnabled,
             buttonState = state.value.buttonState,
-            buttonText = "Create account",
+            buttonText = stringResource(id = R.string.signup_create_button),
             onClickListener = {
                 viewModel.registry()
             }
         )
         Spacer(modifier = Modifier.size(16.dp))
         Footer(
-            descriptionText = "You have an account",
-            linkText = "Sign in",
+            descriptionText = stringResource(id = R.string.signup_account),
+            linkText = stringResource(id = R.string.signup_signin),
             modifier = Modifier.fillMaxWidth(),
             onLinkTextListener = {
                 onNavigateUp()

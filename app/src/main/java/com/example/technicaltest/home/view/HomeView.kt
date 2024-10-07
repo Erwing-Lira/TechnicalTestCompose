@@ -23,12 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.technicaltest.R
 import com.example.technicaltest.home.model.Movement
 import com.example.technicaltest.home.state.ProcessState
 import com.example.technicaltest.home.viewmodel.HomeViewModel
@@ -88,7 +90,7 @@ fun HomeView(
                 Row {
                     Column {
                         Text(
-                            text = "¡Hi!",
+                            text = stringResource(id = R.string.home_greeting),
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -104,7 +106,7 @@ fun HomeView(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                            contentDescription = "LogOut",
+                            contentDescription = stringResource(id = R.string.log_out_icon_description),
                             tint = Color.Red
                         )
                     }
@@ -120,13 +122,13 @@ fun HomeView(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "Movements",
+                        text = stringResource(id = R.string.home_movements_title),
                         fontWeight = FontWeight.Bold,
                         fontSize = 25.sp
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Text(
-                        text = "Sorted by",
+                        text = stringResource(id = R.string.home_sorted),
                         modifier = Modifier.padding(vertical = 4.dp)
                     )
                     IconButton(
@@ -135,7 +137,7 @@ fun HomeView(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardArrowDown,
-                            contentDescription = "Descending"
+                            contentDescription = stringResource(id = R.string.home_sorted_icon_description)
                         )
                     }
                 }

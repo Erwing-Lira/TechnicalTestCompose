@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.technicaltest.R
 
 @Preview(showBackground = true)
 @Composable
@@ -34,7 +36,7 @@ fun ErrorView(
                 modifier = Modifier.wrapContentSize(),
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp,
-                text = "An error occurred, try again",
+                text = stringResource(id = R.string.home_error),
                 color = Color.Red
             )
             Spacer(modifier = Modifier.size(8.dp))
@@ -43,7 +45,7 @@ fun ErrorView(
                     onLogOutListener()
                 }
             ) {
-                Text(text = "Log out")
+                Text(text = stringResource(id = R.string.log_out))
             }
         }
     }
