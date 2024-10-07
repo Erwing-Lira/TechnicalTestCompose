@@ -85,7 +85,7 @@ fun HomeView(
                 Row {
                     Column {
                         Text(
-                            text = "¡Hola!",
+                            text = "¡Hi!",
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -106,7 +106,7 @@ fun HomeView(
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 DigitalCardView(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     card = cardState.value

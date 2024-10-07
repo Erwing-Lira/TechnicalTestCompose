@@ -48,12 +48,12 @@ fun SignUpView(
 
     when (processState.value) {
         ProcessState.Failure -> {
-            viewModel.resetProcessState()
             Toast.makeText(context, "It should be an error, try again", Toast.LENGTH_SHORT).show()
+            viewModel.resetProcessState()
         }
         ProcessState.Success -> {
-            viewModel.resetProcessState()
             Toast.makeText(context, "User created", Toast.LENGTH_LONG).show()
+            viewModel.resetProcessState()
             onSignUpSuccess()
         }
         ProcessState.StandBy -> Unit

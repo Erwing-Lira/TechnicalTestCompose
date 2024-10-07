@@ -1,9 +1,8 @@
 package com.example.technicaltest.home.usecase
 
+import com.example.technicaltest.home.mapper.toMovement
 import com.example.technicaltest.home.model.Movement
 import com.example.technicaltest.home.repository.IMovementsRepository
-import com.example.technicaltest.home.repository.model.MovementResponse
-import com.example.technicaltest.home.state.MovementType
 import java.util.Date
 import javax.inject.Inject
 
@@ -30,29 +29,5 @@ class FetchMovementsUseCase @Inject constructor(
             }
         )
         return result
-    }
-}
-
-private fun MovementResponse.toMovement(): Movement {
-    return Movement(
-        id = this.id,
-        date = this.operationDate.time,
-        destination = this.destination,
-        reference = this.reference,
-        movementType = convertToMovementType(this.movementType),
-        money = this.money,
-        concept = this.concept
-    )
-}
-
-enum class MovementTypeResponse {
-    INCOME,
-    EXPENSE
-}
-
-fun convertToMovementType(movementType: String): MovementType {
-    return when (movementType) {
-        MovementTypeResponse.INCOME.name -> MovementType.Income
-        else -> MovementType.Expense
     }
 }
