@@ -2,15 +2,17 @@ package com.example.technicaltest.home.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.technicaltest.home.model.CardInformation
+import com.example.technicaltest.home.repository.ICardsRepository
 import com.example.technicaltest.home.repository.ILogOutRepository
-import com.example.technicaltest.home.repository.IRegistryCardRepository
 import com.example.technicaltest.home.repository.IUserRepository
 import com.example.technicaltest.home.state.CardState
 import com.example.technicaltest.home.state.HomeState
+import com.example.technicaltest.home.state.InformationState
 import com.example.technicaltest.home.state.MovementsState
+import com.example.technicaltest.home.state.ProcessState
 import com.example.technicaltest.home.usecase.FetchMovementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,11 +24,14 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val logOutRepository: ILogOutRepository,
     private val userRepository: IUserRepository,
-    private val registryCardRepository: IRegistryCardRepository,
+    private val cardsRepository: ICardsRepository,
     private val fetchMovementsUseCase: FetchMovementsUseCase
 ): ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState: StateFlow<HomeState> = _uiState.asStateFlow()
+
+    private val _userState = MutableStateFlow(InformationState())
+    val userState: StateFlow<InformationState> = _userState.asStateFlow()
 
     private val _cardState = MutableStateFlow(CardState())
     val cardState: StateFlow<CardState> = _cardState.asStateFlow()
@@ -40,58 +45,78 @@ class HomeViewModel @Inject constructor(
 
     private fun fetchData() {
         viewModelScope.launch {
-            getData()
-            getMovements()
+            getUserInfo()
+            getCardInfo()
+            getMovementsInfo()
         }
     }
 
-    private suspend fun getData() {
-        delay(2_000)
+    private suspend fun getUserInfo() {
         userRepository.getUserInfo().fold(
-            onSuccess = { user ->
-                _cardState.update { state ->
-                    state.copy(
-                        name = user.name,
-                        cardNumber = user.cardNumber,
-                        expiresDate = user.expiresDate,
-                        cvv = user.cvv,
-                        isLoading = false
+            onSuccess = { name ->
+                _userState.update {
+                    it.copy(
+                        processState = ProcessState.Success,
+                        name = name
                     )
                 }
             },
             onFailure = {
+                _userState.update {
+                    it.copy(
+                        processState = ProcessState.Failure,
+                    )
+                }
             }
         )
     }
 
-    private suspend fun getMovements() {
-        val result = fetchMovementsUseCase.invoke()
-        delay(5_000)
-        _movementsState.update {
-            it.copy(
-                isLoading = result.isEmpty(),
-                list = result
-            )
-        }
+    private suspend fun getCardInfo() {
+        cardsRepository.getFirstCard().fold(
+            onSuccess = { card ->
+                _cardState.update {
+                    it.copy(
+                        processState = ProcessState.Success,
+                        cardInformation = CardInformation(
+                            id = card.id,
+                            cardNumber = card.number,
+                            expiresDate = card.expiresDate,
+                            cvv = card.cvv
+                        )
+                    )
+                }
+            },
+            onFailure = {
+                _cardState.update {
+                    it.copy(
+                        processState = ProcessState.Failure
+                    )
+                }
+            }
+        )
     }
 
-    fun onRegistryCard() {
-        viewModelScope.launch {
-            registryCardRepository.registryCard().fold(
-                onSuccess = {
-                    _cardState.update { state ->
-                        state.copy(
-                            isLoading = true
-                        )
-                    }
-                    _movementsState.update {
-                        it.copy(
-                            isLoading = true,
-                        )
-                    }
-                },
-                onFailure = {}
-            )
+    private suspend fun getMovementsInfo() {
+        val result = fetchMovementsUseCase.invoke(
+            _cardState.value.cardInformation.id
+        )
+        result?.let { list ->
+            _movementsState.update {
+                it.copy(
+                    processState = if (list.isEmpty()) {
+                        ProcessState.Loading
+                    } else {
+                        ProcessState.Success
+                    },
+                    movementList = list
+                )
+            }
+        } ?: run {
+            _movementsState.update {
+                it.copy(
+                    processState = ProcessState.Failure
+                )
+            }
         }
     }
 

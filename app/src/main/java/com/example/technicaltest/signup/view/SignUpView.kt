@@ -18,12 +18,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.technicaltest.signin.state.ProcessState
@@ -50,6 +53,7 @@ fun SignUpView(
         }
         ProcessState.Success -> {
             viewModel.resetProcessState()
+            Toast.makeText(context, "User created", Toast.LENGTH_LONG).show()
             onSignUpSuccess()
         }
         ProcessState.StandBy -> Unit
@@ -62,6 +66,12 @@ fun SignUpView(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Text(
+            color = Color(0xFF4EA8E9),
+            text = "Fill the following information, to create an account",
+            fontSize = 18.sp,
+        )
+        Spacer(modifier = Modifier.size(8.dp))
         InputText(
             value = state.value.name,
             keyboardType = KeyboardType.Text,
@@ -150,6 +160,15 @@ fun SignUpView(
             },
             onTextChanged = viewModel::onRepeatPasswordChanged
         )
+        if (!state.value.bothPasswordMatches) {
+            Spacer(modifier = Modifier.size(4.dp))
+            Text(
+                color = Color.Red,
+                text = "Both password should be the same",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Light
+            )
+        }
         Spacer(modifier = Modifier.size(16.dp))
         CameraCapture(
             context = context,

@@ -11,18 +11,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.technicaltest.home.state.Movement
+import com.example.technicaltest.home.model.Movement
+import com.example.technicaltest.utils.convertMovementDate
+import java.util.Date
 
 @Composable
 fun MovementList(
-    movementsList: Map<String, List<Movement>>,
-    onMovementListener: (String) -> Unit
+    movementsList: Map<Date, List<Movement>>,
+    onMovementListener: (Movement) -> Unit
 ) {
     LazyColumn {
         movementsList.forEach { (date, movementList) ->
             item {
                 Text(
-                    text = date,
+                    text = date.convertMovementDate(),
                     modifier = Modifier.padding(8.dp),
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp
@@ -39,7 +41,7 @@ fun MovementList(
                     elementType = elementType,
                     movement = movement,
                     onMovementClick = {
-                        onMovementListener(movement.reference)
+                        onMovementListener(movement)
                     }
                 )
                 if (index < movementList.lastIndex) {

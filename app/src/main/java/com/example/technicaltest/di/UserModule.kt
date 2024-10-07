@@ -1,8 +1,6 @@
 package com.example.technicaltest.di
 
-import com.example.technicaltest.home.repository.IMovementsRepository
 import com.example.technicaltest.home.repository.IUserRepository
-import com.example.technicaltest.home.repository.MovementsRepositoryImpl
 import com.example.technicaltest.home.repository.UserRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -15,7 +13,7 @@ import javax.inject.Singleton
 object UserModule {
     @Provides
     @Singleton
-    fun provideUSerRepository(
+    fun provideUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ): IUserRepository {
         return userRepositoryImpl

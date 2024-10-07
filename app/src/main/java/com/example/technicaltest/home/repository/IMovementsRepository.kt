@@ -1,7 +1,7 @@
 package com.example.technicaltest.home.repository
 
-import com.example.technicaltest.home.state.Movement
+import com.example.technicaltest.home.repository.model.MovementResponse
 
 interface IMovementsRepository {
-    fun getMovementsList(): Result<List<Movement>>
+    suspend fun getMovementsList(cardId: String): Result<List<MovementResponse>>
 }

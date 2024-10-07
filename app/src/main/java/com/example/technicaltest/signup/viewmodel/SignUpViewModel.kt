@@ -111,7 +111,7 @@ class SignUpViewModel @Inject constructor(
         val bothPasswordMatches = _uiState.value.password == _uiState.value.repeatPassword
         _uiState.update {
             it.copy(
-                bothPasswordMatches = bothPasswordMatches
+                bothPasswordMatches = bothPasswordMatches,
             )
         }
     }

@@ -18,7 +18,7 @@ data class SignUpState(
     val isEmailWrong: Boolean = false,
     val isPassWrong: Boolean = false,
     val isRepeatPassWrong: Boolean = false,
-    val bothPasswordMatches: Boolean = false,
+    val bothPasswordMatches: Boolean = true,
 
     val isButtonEnabled: Boolean = false,
     val buttonState: ButtonState = ButtonState.StandBy,

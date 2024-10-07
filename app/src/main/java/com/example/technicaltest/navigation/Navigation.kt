@@ -4,10 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import com.example.technicaltest.home.model.Movement
 import com.example.technicaltest.home.view.HomeView
+import com.example.technicaltest.movement.view.MovementDetailView
 import com.example.technicaltest.navigation.routes.Routes
 import com.example.technicaltest.signin.view.SignInView
 import com.example.technicaltest.signup.view.SignUpView
+import com.example.technicaltest.utils.json
 
 @Composable
 fun Navigation(
@@ -49,8 +53,12 @@ fun Navigation(
         }
         composable<Routes.Home> {
             HomeView(
-                onMovementClicked = { reference ->
-                    navigationController.navigate(Routes.MovementDetail(reference))
+                onMovementClicked = { movement ->
+                    navigationController.navigate(
+                        Routes.MovementDetail(
+                            movement = movement
+                        )
+                    )
                 },
                 onLogoutClicked = {
                     navigationController.navigate(Routes.SignIn) {
@@ -63,7 +71,14 @@ fun Navigation(
             )
         }
         composable<Routes.MovementDetail> {
-
+            val args = it.toRoute<Routes.MovementDetail>()
+            val movement = json.decodeFromString<Movement>(args.movement)
+            MovementDetailView(
+                movement = movement,
+                onNavigateUp = {
+                    navigationController.navigateUp()
+                }
+            )
         }
     }
 }

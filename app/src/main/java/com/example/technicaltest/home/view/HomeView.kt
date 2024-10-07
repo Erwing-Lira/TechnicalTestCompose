@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,7 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.technicaltest.home.model.Movement
+import com.example.technicaltest.home.state.ProcessState
 import com.example.technicaltest.home.viewmodel.HomeViewModel
+import com.example.technicaltest.utils.json
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 @Composable
 @Preview(showBackground = true)
@@ -37,6 +43,7 @@ fun HomeView(
     onMovementClicked: (String) -> Unit = {},
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle()
+    val userState = viewModel.userState.collectAsStateWithLifecycle()
     val cardState = viewModel.cardState.collectAsStateWithLifecycle()
     val movementsState = viewModel.movementsState.collectAsStateWithLifecycle()
 
@@ -59,83 +66,107 @@ fun HomeView(
         )
     }
 
-    Column(
-        modifier = Modifier
-            .padding(16.dp)
-            .systemBarsPadding()
-            .fillMaxWidth()
-    ) {
-        Row {
-            Column {
-                Text(
-                    text = "¡Hola!",
-                    fontSize = 25.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = cardState.value.name,
-                    fontSize = 20.sp
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            IconButton(
-                onClick = viewModel::showDialog
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                    contentDescription = "LogOut",
-                    tint = Color.Red
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        DigitalCardView(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            card = cardState.value
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Movements",
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp
+    when (userState.value.processState) {
+        ProcessState.Failure -> {
+            ErrorView(
+                modifier = Modifier.fillMaxSize(),
+                onLogOutListener = viewModel::onLogOut
             )
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = "Sorted by",
-                modifier = Modifier.padding(vertical = 4.dp)
-            )
-            IconButton(
-                onClick = {
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.KeyboardArrowDown,
-                    contentDescription = "Descending"
-                )
-            }
         }
-
-        if (movementsState.value.isLoading) {
-            CircularProgressIndicator(
-                color = Color(0xFF4EA8E9),
-                strokeWidth = 5.dp,
-                strokeCap = StrokeCap.Round,
+        ProcessState.Loading,
+        ProcessState.Success,
+        -> {
+            Column(
                 modifier = Modifier
-                    .size(100.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-        } else {
-            MovementList(
-                movementsList = movementsState.value.list,
-                onMovementListener = { reference ->
-                    onMovementClicked(reference)
+                    .padding(16.dp)
+                    .systemBarsPadding()
+                    .fillMaxWidth()
+            ) {
+                Row {
+                    Column {
+                        Text(
+                            text = "¡Hola!",
+                            fontSize = 25.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = userState.value.name,
+                            fontSize = 20.sp
+                        )
+                    }
+                    Spacer(modifier = Modifier.weight(1f))
+                    IconButton(
+                        onClick = viewModel::showDialog
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "LogOut",
+                            tint = Color.Red
+                        )
+                    }
                 }
-            )
+                Spacer(modifier = Modifier.height(8.dp))
+                DigitalCardView(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    card = cardState.value
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Movements",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 25.sp
+                    )
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(
+                        text = "Sorted by",
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
+                    IconButton(
+                        onClick = {
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowDown,
+                            contentDescription = "Descending"
+                        )
+                    }
+                }
+
+                when (movementsState.value.processState) {
+                    ProcessState.Failure -> {
+                        WithoutMovementsView(
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+                    }
+
+                    ProcessState.Loading -> {
+                        CircularProgressIndicator(
+                            color = Color(0xFF4EA8E9),
+                            strokeWidth = 5.dp,
+                            strokeCap = StrokeCap.Round,
+                            modifier = Modifier
+                                .size(100.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
+
+                    ProcessState.Success -> {
+                        MovementList(
+                            movementsList = movementsState.value.movementList,
+                            onMovementListener = { movement ->
+                                onMovementClicked(
+                                    json.encodeToString(movement)
+                                )
+                            }
+                        )
+                    }
+                }
+            }
         }
     }
 }

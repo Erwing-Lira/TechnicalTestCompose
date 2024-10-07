@@ -45,12 +45,12 @@ fun SignInView(
 
     when (processState.value) {
         ProcessState.Failure -> {
-            viewModel.resetProcessState()
             Toast.makeText(context, "Email or Password my be wrong", Toast.LENGTH_SHORT).show()
+            viewModel.resetProcessState()
         }
         ProcessState.Success -> {
-            viewModel.resetProcessState()
             onNavigateToHome()
+            viewModel.resetProcessState()
         }
         ProcessState.StandBy -> Unit
     }

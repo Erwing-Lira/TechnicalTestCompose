@@ -1,5 +1,6 @@
 package com.example.technicaltest.navigation.routes
 
+import com.example.technicaltest.home.state.MovementType
 import kotlinx.serialization.Serializable
 
 sealed class Routes {
@@ -14,6 +15,6 @@ sealed class Routes {
 
     @Serializable
     data class MovementDetail(
-        val reference: String
+        val movement: String
     ): Routes()
 }

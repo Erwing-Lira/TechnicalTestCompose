@@ -13,7 +13,11 @@ class AuthenticateRepositoryImpl @Inject constructor(
         password: String
     ): Result<FirebaseUser> {
         return try {
-            val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            val result = firebaseAuth
+                .signInWithEmailAndPassword(
+                    email,
+                    password
+                ).await()
             result.user?.let {
                 Result.success(it)
             } ?: Result.failure(NullPointerException())
