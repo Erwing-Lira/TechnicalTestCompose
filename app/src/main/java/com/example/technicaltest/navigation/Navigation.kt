@@ -11,6 +11,7 @@ import com.example.technicaltest.movement.view.MovementDetailView
 import com.example.technicaltest.navigation.routes.Routes
 import com.example.technicaltest.signin.view.SignInView
 import com.example.technicaltest.signup.view.SignUpView
+import com.example.technicaltest.ticket.view.TicketView
 import com.example.technicaltest.utils.json
 
 @Composable
@@ -42,6 +43,18 @@ fun Navigation(
                     navigationController.navigateUp()
                 },
                 onSignUpSuccess = {
+                    navigationController.navigate(Routes.Ticket) {
+                        popUpTo<Routes.SignUp> {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
+                    }
+                }
+            )
+        }
+        composable<Routes.Ticket> {
+            TicketView(
+                onLoginListener = {
                     navigationController.navigate(Routes.SignIn) {
                         popUpTo<Routes.SignUp> {
                             inclusive = true

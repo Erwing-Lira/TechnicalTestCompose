@@ -113,7 +113,7 @@ fun SignInView(
             modifier = Modifier.fillMaxWidth(),
             isEnabled = state.value.isButtonEnabled,
             buttonState = state.value.buttonState,
-            buttonText = stringResource(id = R.string.signin_login),
+            buttonText = stringResource(id = R.string.login),
             onClickListener = viewModel::authenticate
         )
         Spacer(modifier = Modifier.size(16.dp))

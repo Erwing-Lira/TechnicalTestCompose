@@ -58,7 +58,6 @@ fun SignUpView(
                 viewModel.resetProcessState()
             }
             ProcessState.Success -> {
-                Toast.makeText(context, "User created", Toast.LENGTH_LONG).show()
                 viewModel.resetProcessState()
                 onSignUpSuccess()
             }

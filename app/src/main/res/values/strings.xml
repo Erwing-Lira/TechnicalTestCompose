@@ -15,10 +15,13 @@
     <string name="signup_account">You have an account</string>
     <string name="signup_signin">Sign in</string>
 
+    <!-- Success -->
+    <string name="ticket_success_description">The account has been created successfully.</string>
+    <string name="ticket_success_icon_description">success</string>
+
     <!-- SignIn -->
     <string name="signin_account">Do not have an account?</string>
     <string name="signin_signup">Sign up</string>
-    <string name="signin_login">Log in</string>
 
     <!-- Movement Detail-->
     <string name="icon_movement_type">Movement type</string>
@@ -40,6 +43,7 @@
     <string name="home_sorted_icon_description">Icon sorted</string>
 
     <!-- Common -->
+    <string name="login">Log in</string>
     <string name="password_visibility">Visibility</string>
     <string name="email">Email</string>
     <string name="email_error">It should be a valid email</string>

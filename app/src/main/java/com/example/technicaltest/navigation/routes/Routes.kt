@@ -1,6 +1,5 @@
 package com.example.technicaltest.navigation.routes
 
-import com.example.technicaltest.home.state.MovementType
 import kotlinx.serialization.Serializable
 
 sealed class Routes {
@@ -9,6 +8,9 @@ sealed class Routes {
 
     @Serializable
     data object SignUp: Routes()
+
+    @Serializable
+    data object Ticket: Routes()
 
     @Serializable
     data object Home: Routes()
