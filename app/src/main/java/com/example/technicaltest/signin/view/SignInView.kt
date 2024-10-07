@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -43,16 +44,18 @@ fun SignInView(
     val state = viewModel.uiState.collectAsStateWithLifecycle()
     val processState = viewModel.processState.collectAsStateWithLifecycle()
 
-    when (processState.value) {
-        ProcessState.Failure -> {
-            Toast.makeText(context, "Email or Password my be wrong", Toast.LENGTH_SHORT).show()
-            viewModel.resetProcessState()
+    LaunchedEffect(key1 = processState.value) {
+        when (processState.value) {
+            ProcessState.Failure -> {
+                Toast.makeText(context, "Email or Password my be wrong", Toast.LENGTH_SHORT).show()
+                viewModel.resetProcessState()
+            }
+            ProcessState.Success -> {
+                onNavigateToHome()
+                viewModel.resetProcessState()
+            }
+            ProcessState.StandBy -> Unit
         }
-        ProcessState.Success -> {
-            onNavigateToHome()
-            viewModel.resetProcessState()
-        }
-        ProcessState.StandBy -> Unit
     }
 
     Column(

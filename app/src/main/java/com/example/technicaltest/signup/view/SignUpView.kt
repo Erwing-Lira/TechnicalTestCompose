@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,17 +47,19 @@ fun SignUpView(
     val state = viewModel.uiState.collectAsStateWithLifecycle()
     val processState = viewModel.processState.collectAsStateWithLifecycle()
 
-    when (processState.value) {
-        ProcessState.Failure -> {
-            Toast.makeText(context, "It should be an error, try again", Toast.LENGTH_SHORT).show()
-            viewModel.resetProcessState()
+    LaunchedEffect(key1 = processState.value) {
+        when (processState.value) {
+            ProcessState.Failure -> {
+                Toast.makeText(context, "It should be an error, try again", Toast.LENGTH_SHORT).show()
+                viewModel.resetProcessState()
+            }
+            ProcessState.Success -> {
+                Toast.makeText(context, "User created", Toast.LENGTH_LONG).show()
+                viewModel.resetProcessState()
+                onSignUpSuccess()
+            }
+            ProcessState.StandBy -> Unit
         }
-        ProcessState.Success -> {
-            Toast.makeText(context, "User created", Toast.LENGTH_LONG).show()
-            viewModel.resetProcessState()
-            onSignUpSuccess()
-        }
-        ProcessState.StandBy -> Unit
     }
 
     Column(
