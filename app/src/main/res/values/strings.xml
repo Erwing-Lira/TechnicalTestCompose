@@ -4,6 +4,7 @@
     <!-- SignUp -->
     <string name="photo_uri_description">Credential</string>
     <string name="add_icon_description">Add</string>
+    <string name="add_photo_description">Take a picture of your credential ID</string>
     <string name="signup_title">Fill the following information, to create an account</string>
     <string name="signup_error_text">It should only have letters</string>
     <string name="signup_name">Name</string>

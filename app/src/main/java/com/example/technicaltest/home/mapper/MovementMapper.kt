@@ -7,7 +7,7 @@ import com.example.technicaltest.home.usecase.convertToMovementType
 fun MovementResponse.toMovement(): Movement {
     return Movement(
         id = this.id,
-        date = this.operationDate.time,
+        date = this.operationDate.toDate().time,
         destination = this.destination,
         reference = this.reference,
         movementType = convertToMovementType(this.movementType),

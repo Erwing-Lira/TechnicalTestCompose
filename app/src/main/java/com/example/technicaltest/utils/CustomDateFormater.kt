@@ -1,6 +1,8 @@
 package com.example.technicaltest.utils
 
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -9,8 +11,8 @@ fun Date.formatExpiration(): String {
     return dateFormat.format(this)
 }
 
-fun Date.convertMovementDate(): String {
-    val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale("es", "MX"))
+fun LocalDate.convertMovementDate(): String {
+    val dateFormat = DateTimeFormatter.ofPattern("dd/MMMM/yyyy", Locale("es", "MX"))
     return dateFormat.format(this)
 }
 

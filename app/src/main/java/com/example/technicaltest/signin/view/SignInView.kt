@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -20,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -63,7 +62,8 @@ fun SignInView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .systemBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -93,15 +93,15 @@ fun SignInView(
             },
             trailingIcon = {
                 val iconImage = if (state.value.passwordVisibility) {
-                    Icons.Filled.Search
+                    painterResource(id = R.drawable.visibility_off)
                 } else {
-                    Icons.Filled.Lock
+                    painterResource(id = R.drawable.visibility)
                 }
                 IconButton(
                     onClick = viewModel::onPasswordVisibilityChange
                 ) {
                     Icon(
-                        imageVector = iconImage,
+                        painter = iconImage,
                         contentDescription = stringResource(id = R.string.password_visibility)
                     )
                 }

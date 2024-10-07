@@ -13,11 +13,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.technicaltest.home.model.Movement
 import com.example.technicaltest.utils.convertMovementDate
-import java.util.Date
+import java.time.LocalDate
 
 @Composable
 fun MovementList(
-    movementsList: Map<Date, List<Movement>>,
+    movementsList: Map<LocalDate, List<Movement>>,
     onMovementListener: (Movement) -> Unit
 ) {
     LazyColumn {

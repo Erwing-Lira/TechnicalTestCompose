@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -48,6 +49,7 @@ fun SignUpView(
 ) {
     val state = viewModel.uiState.collectAsStateWithLifecycle()
     val processState = viewModel.processState.collectAsStateWithLifecycle()
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = processState.value) {
         when (processState.value) {
@@ -67,9 +69,11 @@ fun SignUpView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .systemBarsPadding()
+            .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             color = Color(0xFF4EA8E9),
@@ -125,15 +129,15 @@ fun SignUpView(
             },
             trailingIcon = {
                 val iconImage = if (state.value.passwordVisibility) {
-                    Icons.Filled.Search
+                    painterResource(id = R.drawable.visibility_off)
                 } else {
-                    Icons.Filled.Lock
+                    painterResource(id = R.drawable.visibility)
                 }
                 IconButton(
                     onClick = viewModel::onPasswordVisibility
                 ) {
                     Icon(
-                        imageVector = iconImage,
+                        painter = iconImage,
                         contentDescription = stringResource(id = R.string.password_visibility)
                     )
                 }
@@ -156,15 +160,15 @@ fun SignUpView(
             },
             trailingIcon = {
                 val iconImage = if (state.value.repeatPasswordVisibility) {
-                    Icons.Filled.Search
+                    painterResource(id = R.drawable.visibility_off)
                 } else {
-                    Icons.Filled.Lock
+                    painterResource(id = R.drawable.visibility)
                 }
                 IconButton(
                     onClick = viewModel::onRepeatPasswordVisibility
                 ) {
                     Icon(
-                        imageVector = iconImage,
+                        painter = iconImage,
                         contentDescription = stringResource(id = R.string.password_visibility)
                     )
                 }
@@ -180,7 +184,13 @@ fun SignUpView(
                 fontWeight = FontWeight.Light
             )
         }
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(
+            color = Color(0xFF4EA8E9),
+            text = stringResource(id = R.string.add_photo_description),
+            fontSize = 15.sp,
+        )
+        Spacer(modifier = Modifier.size(8.dp))
         CameraCapture(
             context = context,
             onImageCapture = viewModel::onPhotoChanged

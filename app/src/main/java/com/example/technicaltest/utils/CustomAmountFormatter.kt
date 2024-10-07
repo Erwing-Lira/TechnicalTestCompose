@@ -1,8 +1,10 @@
 package com.example.technicaltest.utils
 
-import java.text.NumberFormat
-import java.util.Locale
+import java.text.DecimalFormat
 
 fun Double.formatAmount(): String {
-    return NumberFormat.getInstance(Locale.US).format(this)
+    val formatter = DecimalFormat("#,###.00")
+    formatter.minimumFractionDigits = 2
+    formatter.maximumFractionDigits = 2
+    return formatter.format(this)
 }

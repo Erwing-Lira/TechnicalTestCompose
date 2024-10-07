@@ -3,10 +3,10 @@ package com.example.technicaltest.home.state
 import com.example.technicaltest.home.model.Movement
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
-import java.util.Date
+import java.time.LocalDate
 
 data class MovementsState(
-    val movementList: Map<Date, List<Movement>> = mapOf(),
+    val movementList: Map<LocalDate, List<Movement>> = mapOf(),
     val processState: ProcessState = ProcessState.Loading,
 )
 

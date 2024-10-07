@@ -35,7 +35,7 @@ class MovementsRepositoryImpl @Inject constructor(
                             concept = data["concept"] as String,
                             destination = data["destination"] as String,
                             movementType = data["movementType"] as String,
-                            operationDate = (data["operationDate"] as Timestamp).toDate(),
+                            operationDate = data["operationDate"] as Timestamp,
                             reference = data["reference"] as String,
                             money = data["money"] as Double
                         )

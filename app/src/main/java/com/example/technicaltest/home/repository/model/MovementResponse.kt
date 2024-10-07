@@ -1,13 +1,13 @@
 package com.example.technicaltest.home.repository.model
 
-import java.util.Date
+import com.google.firebase.Timestamp
 
 data class MovementResponse(
     val id: String,
     val concept: String,
     val destination: String,
     val movementType: String,
-    val operationDate: Date,
+    val operationDate: Timestamp,
     val reference: String,
     val money: Double
 )
